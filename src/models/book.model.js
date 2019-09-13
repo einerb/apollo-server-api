@@ -9,7 +9,9 @@ const BookSchema = mongoose.Schema({
     type: String,
     required: [true, "Obligatory field"],
     unique: true
-  }
+  },
+  publisher_id: { type: mongoose.Schema.Types.ObjectId, ref: "Publisher" },
+  author_id: { type: mongoose.Schema.Types.ObjectId, ref: "Author" }
 });
 
 module.exports = mongoose.model("Book", BookSchema);
