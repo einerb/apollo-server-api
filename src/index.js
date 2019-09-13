@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server-express";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
-import config from "./config/index";
-import { typeDefs, resolvers } from "./schemas/index";
+import config from "./config/";
+import { typeDefs } from "./schemas/";
+import { resolvers } from "./resolvers";
 
 // Create server express
 const app = express();
@@ -25,7 +26,8 @@ mongoServer.getConnectionString().then(mongoUri => {
     reconnectTries: Number.MAX_VALUE,
     reconnectInterval: 1000,
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
   };
 
   mongoose.connect(mongoUri, mongooseOpts);
