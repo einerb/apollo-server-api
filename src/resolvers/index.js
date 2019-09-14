@@ -79,9 +79,42 @@ const resolvers = {
 
       return await publisher.save();
     },
-    updateAuthor: async (req, args) => {},
-    updateBook: async (req, args) => {},
-    updatePublisher: async (req, args) => {}
+    updateAuthor: async (req, args) => {
+      const author = await Author.findOne({ _id: args._id });
+
+      if (!author) return TE("The author does not exist!");
+
+      await Author.findByIdAndUpdate(author._id, args.authorInput, {
+        new: true,
+        useFindAndModify: false
+      });
+
+      return await author.save();
+    },
+    updateBook: async (req, args) => {
+      const book = await Book.findOne({ _id: args._id });
+
+      if (!book) return TE("The book does not exist!");
+
+      await Book.findByIdAndUpdate(book._id, args.bookInput, {
+        new: true,
+        useFindAndModify: false
+      });
+
+      return await book.save();
+    },
+    updatePublisher: async (req, args) => {
+      const publisher = await Publisher.findOne({ _id: args._id });
+
+      if (!publisher) return TE("The publisher does not exist!");
+
+      await Publisher.findByIdAndUpdate(publisher._id, args.publisherInput, {
+        new: true,
+        useFindAndModify: false
+      });
+
+      return await publisher.save();
+    }
   }
 };
 
