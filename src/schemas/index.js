@@ -5,6 +5,7 @@ type Author {
   first_name: String
   last_name: String
   country: String
+  book_id: [Book]
 }
 type Book {
   _id: ID!
@@ -18,6 +19,27 @@ type Book {
 }
 type Publisher {
   _id: ID!
+  name: String
+  foundation_year: String
+}
+
+"Input"
+input AuthorInput {
+  first_name: String
+  last_name: String
+  country: String
+  book_id: [String]
+}
+input BookInput {
+  title: String
+  isbn: String!
+  synopsis: String
+  genres: String
+  publication_year: String
+  publisher_id: String
+  author_id: [String]
+}
+input PublisherInput {
   name: String
   foundation_year: String
 }
@@ -36,14 +58,14 @@ type Query {
 
 "Mutations"
 type Mutation {
-  addAuthor(first_name: String, last_name: String, country: String): Author
-  updateAuthor(_id: ID!, first_name: String, last_name: String, country: String): Author
+  addAuthor(authorInput: AuthorInput): Author
+  updateAuthor(_id: ID!, authorInput: AuthorInput): Author
 
-  addBook(title: String, isbn: String!, synopsis: String, genres: String, publication_year: String, publisher_id: String!, author_id: String!): Book
-  updateBook(_id: ID!, title: String, isbn: String!, synopsis: String, genres: String, publication_year: String): Book
+  addBook(bookInput: BookInput): Book
+  updateBook(_id: ID!, bookInput: BookInput): Book
 
-  addPublisher(name: String, foundation_year: String): Publisher
-  updatePublisher(_id: ID!, name: String, foundation_year: String): Publisher
+  addPublisher(publisherInput: PublisherInput): Publisher
+  updatePublisher(_id: ID!, publisherInput: PublisherInput): Publisher
 }
 `;
 

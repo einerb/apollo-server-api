@@ -21,7 +21,8 @@
     "graphql-tools": "^4.0.5",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.0",
-    "mongoose-validator": "^2.1.0"
+    "mongoose-validator": "^2.1.0",
+    "parse-error": "^0.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",
