@@ -1,72 +1,74 @@
-const typeDefs = `
-"Types"
-type Author {
-  _id: ID!
-  first_name: String
-  last_name: String
-  country: String
-  book_id: [Book]
-}
-type Book {
-  _id: ID!
-  title: String
-  isbn: String!
-  synopsis: String
-  genres: String
-  publication_year: String
-  publisher_id: Publisher
-  author_id: [Author]
-}
-type Publisher {
-  _id: ID!
-  name: String
-  foundation_year: String
-}
+import { gql } from "apollo-server-express";
 
-"Input"
-input AuthorInput {
-  first_name: String
-  last_name: String
-  country: String
-  book_id: [String]
-}
-input BookInput {
-  title: String
-  isbn: String!
-  synopsis: String
-  genres: String
-  publication_year: String
-  publisher_id: String
-  author_id: [String]
-}
-input PublisherInput {
-  name: String
-  foundation_year: String
-}
+const typeDefs = gql`
+  "Types"
+  type Author {
+    _id: ID!
+    first_name: String
+    last_name: String
+    country: String
+    book_id: [Book]
+  }
+  type Book {
+    _id: ID!
+    title: String
+    isbn: String!
+    synopsis: String
+    genres: String
+    publication_year: String
+    publisher_id: Publisher
+    author_id: [Author]
+  }
+  type Publisher {
+    _id: ID!
+    name: String
+    foundation_year: String
+  }
 
-"Query"
-type Query {
-  getAuthor(_id: ID!): Author!
-  allAuthors: [Author]!
+  "Input"
+  input AuthorInput {
+    first_name: String
+    last_name: String
+    country: String
+    book_id: [String]
+  }
+  input BookInput {
+    title: String
+    isbn: String!
+    synopsis: String
+    genres: String
+    publication_year: String
+    publisher_id: String
+    author_id: [String]
+  }
+  input PublisherInput {
+    name: String
+    foundation_year: String
+  }
 
-  getBook(_id: ID!): Book!
-  allBooks: [Book]!
+  "Query"
+  type Query {
+    getAuthor(_id: ID!): Author!
+    allAuthors: [Author]!
 
-  getPublisher(_id: ID!): Publisher!
-  allPublisher: [Publisher]!
-}
+    getBook(_id: ID!): Book!
+    allBooks: [Book]!
 
-"Mutations"
-type Mutation {
-  addAuthor(authorInput: AuthorInput): Author
-  updateAuthor(_id: ID!, authorInput: AuthorInput): Author
+    getPublisher(_id: ID!): Publisher!
+    allPublisher: [Publisher]!
+  }
 
-  addBook(bookInput: BookInput): Book
-  updateBook(_id: ID!, bookInput: BookInput): Book
+  "Mutations"
+  type Mutation {
+    addAuthor(authorInput: AuthorInput): Author
+    updateAuthor(_id: ID!, authorInput: AuthorInput): Author
 
-  addPublisher(publisherInput: PublisherInput): Publisher
-  updatePublisher(_id: ID!, publisherInput: PublisherInput): Publisher
-}
+    addBook(bookInput: BookInput): Book
+    updateBook(_id: ID!, bookInput: BookInput): Book
+
+    addPublisher(publisherInput: PublisherInput): Publisher
+    updatePublisher(_id: ID!, publisherInput: PublisherInput): Publisher
+  }
 `;
 
-export { typeDefs };
+export default typeDefs;

@@ -1,19 +1,26 @@
+import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server-express";
 import { MongoMemoryServer } from "mongodb-memory-server";
 
 import config from "./config/";
-import { typeDefs } from "./schemas/";
-import { resolvers } from "./resolvers";
+import resolvers from "./resolvers";
+import typeDefs from "./schemas/";
 
 // Create server express
 const app = express();
 
+// Use CORS
+app.use(cors());
+
 // Constructor: schema definition and resolvers
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: ({ req }) => ({
+    user: req.user,
+  })
 });
 
 // Connection to MongoDB
