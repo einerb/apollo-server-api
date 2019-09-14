@@ -2,40 +2,24 @@ const typeDefs = `
 "Types"
 type Author {
   _id: ID!
-  first_name: String!
+  first_name: String
   last_name: String
   country: String
 }
 type Book {
   _id: ID!
-  title: String!
+  title: String
   isbn: String!
   synopsis: String
   genres: String
-  publication_year: String!
+  publication_year: String
+  publisher_id: Publisher
+  author_id: [Author]
 }
 type Publisher {
   _id: ID!
-  name: String!
-  foundation_year: String!
-}
-
-"Input"
-input AuthorInput {
-  first_name: String!
-  last_name: String
-  country: String
-}
-input BookInput {
-  title: String!
-  isbn: String!
-  synopsis: String
-  genres: String
-  publication_year: String!
-}
-input PublisherInput {
-  name: String!
-  foundation_year: String!
+  name: String
+  foundation_year: String
 }
 
 "Query"
@@ -52,14 +36,14 @@ type Query {
 
 "Mutations"
 type Mutation {
-  addAuthor(authorInput: AuthorInput): Author
-  updateAuthor(_id: ID!, authorInput: AuthorInput): Author
+  addAuthor(first_name: String, last_name: String, country: String): Author
+  updateAuthor(_id: ID!, first_name: String, last_name: String, country: String): Author
 
-  addBook(bookInput: BookInput): Book
-  updateBook(_id: ID!, bookInput: BookInput): Book
+  addBook(title: String, isbn: String!, synopsis: String, genres: String, publication_year: String, publisher_id: String!, author_id: String!): Book
+  updateBook(_id: ID!, title: String, isbn: String!, synopsis: String, genres: String, publication_year: String): Book
 
-  addPublisher(publisherInput: PublisherInput): Publisher
-  updatePublisher(_id: ID!, publisherInput: PublisherInput): Publisher
+  addPublisher(name: String, foundation_year: String): Publisher
+  updatePublisher(_id: ID!, name: String, foundation_year: String): Publisher
 }
 `;
 

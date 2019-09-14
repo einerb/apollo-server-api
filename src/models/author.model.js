@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 
 const AuthorSchema = mongoose.Schema({
-  first_name: { type: String, required: [true, "Obligatory field"] },
+  first_name: { type: String },
   last_name: { type: String },
-  country: { type: String },
-  book_id: { type: mongoose.Schema.Types.ObjectId, ref: "Book" }
+  country: { type: String }
 });
 
-module.exports = mongoose.model("Autor", AuthorSchema);
+module.exports = mongoose.model("Author", AuthorSchema);
