@@ -18,6 +18,22 @@ const resolvers = {
         .populate("publisher_id")
         .exec();
     },
+    orderBooks: async (req, args) => {
+      const order = args.order;
+
+      if (order == "asc") {
+        return await Book.find()
+          .sort({ publication_year: 1, title: 1 })
+          .populate("author_id")
+          .populate("publisher_id");
+      } else {
+        return await Book.find()
+          .sort({ publication_year: -1, title: -1 })
+          .populate("author_id")
+          .populate("publisher_id")
+          .exec();
+      }
+    },
     allPublisher: async (req, args) => {
       return await Publisher.find();
     },

@@ -53,6 +53,7 @@ const typeDefs = gql`
 
     getBook(_id: ID!): Book!
     allBooks: [Book]!
+    orderBooks(order: String): [Book]
 
     getPublisher(_id: ID!): Publisher!
     allPublisher: [Publisher]!
