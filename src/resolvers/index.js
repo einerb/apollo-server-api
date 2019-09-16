@@ -13,26 +13,43 @@ const resolvers = {
         .exec();
     },
     allBooks: async (req, args) => {
-      return await Book.find()
-        .populate("author_id")
-        .populate("publisher_id")
-        .exec();
-    },
-    orderBooks: async (req, args) => {
-      const order = args.order;
+      const filter = args.parameterInput.filter;
+      const id = args.parameterInput.id;
+      let query;
 
-      if (order == "asc") {
-        return await Book.find()
-          .sort({ publication_year: 1, title: 1 })
+      if (filter === undefined || filter === "") {
+        query = await Book.find()
+          .sort({
+            publication_year: args.parameterInput.order,
+            title: args.parameterInput.order
+          })
           .populate("author_id")
           .populate("publisher_id");
       } else {
-        return await Book.find()
-          .sort({ publication_year: -1, title: -1 })
+        query = await Book.find({
+          $or: [{ title: filter }, { publication_year: filter }]
+        })
+          .sort({
+            publication_year: args.parameterInput.order,
+            title: args.parameterInput.order
+          })
           .populate("author_id")
-          .populate("publisher_id")
-          .exec();
+          .populate("publisher_id");
       }
+
+      if (id) {
+        query = await Book.find({
+          $or: [{ author_id: id }, { publisher_id: id }]
+        })
+          .sort({
+            publication_year: args.parameterInput.order,
+            title: args.parameterInput.order
+          })
+          .populate("author_id")
+          .populate("publisher_id");
+      }
+
+      return query;
     },
     allPublisher: async (req, args) => {
       return await Publisher.find();

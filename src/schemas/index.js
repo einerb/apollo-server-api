@@ -45,18 +45,23 @@ const typeDefs = gql`
     name: String
     foundation_year: String
   }
+  input ParameterInput {
+    order: String
+    filter: String
+    id: ID
+  }
 
   "Query"
   type Query {
-    getAuthor(_id: ID!): Author!
     allAuthors: [Author]!
+    getAuthor(_id: ID!): Author!
 
+    "Sort by title and year (asc or desc) Filter by title, author, publisher and year y Pagination"
+    allBooks(parameterInput: ParameterInput): [Book]!
     getBook(_id: ID!): Book!
-    allBooks: [Book]!
-    orderBooks(order: String): [Book]
 
-    getPublisher(_id: ID!): Publisher!
     allPublisher: [Publisher]!
+    getPublisher(_id: ID!): Publisher!
   }
 
   "Mutations"
