@@ -2,6 +2,12 @@ import { gql } from "apollo-server-express";
 
 const typeDefs = gql`
   "Types"
+  type Auth {
+    userId: ID!
+    username: String!
+    token: String!
+    tokenExpiration: Int!
+  }
   type Author {
     _id: ID!
     first_name: String
@@ -54,6 +60,8 @@ const typeDefs = gql`
 
   "Query"
   type Query {
+    login(username: String!, password: String!): Auth!
+
     allAuthors: [Author]!
     getAuthor(_id: ID!): Author!
 
