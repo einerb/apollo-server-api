@@ -49,6 +49,7 @@ const typeDefs = gql`
     order: String
     filter: String
     id: ID
+    page: Int
   }
 
   "Query"

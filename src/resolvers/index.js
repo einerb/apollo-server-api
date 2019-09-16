@@ -15,10 +15,12 @@ const resolvers = {
     allBooks: async (req, args) => {
       const filter = args.parameterInput.filter;
       const id = args.parameterInput.id;
+      const page = args.parameterInput.page;
       let query;
 
       if (filter === undefined || filter === "") {
         query = await Book.find()
+          .limit(page)
           .sort({
             publication_year: args.parameterInput.order,
             title: args.parameterInput.order
@@ -29,6 +31,7 @@ const resolvers = {
         query = await Book.find({
           $or: [{ title: filter }, { publication_year: filter }]
         })
+          .limit(page)
           .sort({
             publication_year: args.parameterInput.order,
             title: args.parameterInput.order
@@ -41,6 +44,7 @@ const resolvers = {
         query = await Book.find({
           $or: [{ author_id: id }, { publisher_id: id }]
         })
+          .limit(page)
           .sort({
             publication_year: args.parameterInput.order,
             title: args.parameterInput.order
