@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
+import { TE, to } from "../middlewares/error";
+
 const UserSchema = mongoose.Schema({
   username: { type: String },
   password: { type: String }

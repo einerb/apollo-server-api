@@ -1,40 +1,16 @@
 import faker from "faker";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 import Author from "../models/author.model";
 import Book from "../models/book.model";
 import Publisher from "../models/publisher.model";
 import User from "../models/user.model";
 import { TE } from "../middlewares/error";
+import config from "../config/";
 
 const resolvers = {
   Query: {
-    login: async ({ username, password }) => {
-      const user = await User.findOne({ username: username });
-      if (!user) {
-        return TE("User does not exist!");
-      }
-      const isEqual = await bcrypt.compare(password, user.password);
-      if (!isEqual) {
-        return TE("Incorrect password!");
-      }
-
-      const token =
-        "Bearer " +
-        jwt.sign(
-          { userId: user.id, username: user.username },
-          config.jwt_encryption,
-          {
-            expiresIn: "1h"
-          }
-        );
-
-      return {
-        userId: user.id,
-        username: user.username,
-        token: token,
-        tokenExpiration: 1
-      };
-    },
     allAuthors: async (req, args) => {
       return await Author.find()
         .populate("book_id")
@@ -113,6 +89,33 @@ const resolvers = {
     }
   },
   Mutation: {
+    login: async (req, args) => {
+      const user = await User.findOne({ username: args.username });
+      if (!user) {
+        return TE("User does not exist!");
+      }
+      const isEqual = await bcrypt.compare(args.password, user.password);
+      if (!isEqual) {
+        return TE("Incorrect password!");
+      }
+
+      const token =
+        "Bearer " +
+        jwt.sign(
+          { userId: user.id, username: user.username },
+          config.jwt_encryption,
+          {
+            expiresIn: "1h"
+          }
+        );
+
+      return {
+        userId: user.id,
+        username: user.username,
+        token: token,
+        tokenExpiration: 1
+      };
+    },
     addAuthor: async (req, args) => {
       const author = new Author({
         first_name: faker.name.firstName(),

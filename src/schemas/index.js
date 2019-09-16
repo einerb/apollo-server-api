@@ -60,8 +60,6 @@ const typeDefs = gql`
 
   "Query"
   type Query {
-    login(username: String!, password: String!): Auth!
-
     allAuthors: [Author]!
     getAuthor(_id: ID!): Author!
 
@@ -75,6 +73,8 @@ const typeDefs = gql`
 
   "Mutations"
   type Mutation {
+    login(username: String!, password: String!): Auth!
+
     addAuthor(authorInput: AuthorInput): Author
     updateAuthor(_id: ID!, authorInput: AuthorInput): Author
 
