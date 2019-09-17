@@ -6,17 +6,23 @@ import Author from "../models/author.model";
 import Book from "../models/book.model";
 import Publisher from "../models/publisher.model";
 import User from "../models/user.model";
-import { TE } from "../middlewares/error";
 import config from "../config/";
+import { TE } from "../middlewares/error";
 
 const resolvers = {
   Query: {
-    allAuthors: async (req, args) => {
+    allAuthors: async (parent, args, context) => {
+      const authenticated = context.req.headers.authorization;
+
+      if (!authenticated) {
+        return TE("There is no valid token!");
+      }
+
       return await Author.find()
         .populate("book_id")
         .exec();
     },
-    allBooks: async (req, args) => {
+    allBooks: async (parent, args, context) => {
       const filter = args.parameterInput.filter;
       const id = args.parameterInput.id;
       const page = args.parameterInput.page;
@@ -59,10 +65,16 @@ const resolvers = {
 
       return query;
     },
-    allPublisher: async (req, args) => {
+    allPublisher: async (parent, args, context) => {
       return await Publisher.find();
     },
-    getAuthor: async (req, args) => {
+    getAuthor: async (parent, args, context) => {
+      const authenticated = context.req.headers.authorization;
+
+      if (!authenticated) {
+        return TE("There is no valid token!");
+      }
+
       const author = await Author.findOne({ _id: args._id }).populate(
         "book_id"
       );
@@ -71,7 +83,7 @@ const resolvers = {
 
       return author;
     },
-    getBook: async (req, args) => {
+    getBook: async (parent, args, context) => {
       const book = await Book.findOne({ _id: args._id })
         .populate("author_id")
         .populate("publisher_id");
@@ -80,7 +92,7 @@ const resolvers = {
 
       return book;
     },
-    getPublisher: async (req, args) => {
+    getPublisher: async (parent, args, context) => {
       const publisher = await Publisher.findOne({ _id: args._id });
 
       if (!publisher) return TE("The publisher does not exist!");
@@ -89,7 +101,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    login: async (req, args) => {
+    generateToken: async (parent, args, context) => {
       const user = await User.findOne({ username: args.username });
       if (!user) {
         return TE("User does not exist!");
@@ -116,7 +128,13 @@ const resolvers = {
         tokenExpiration: 1
       };
     },
-    addAuthor: async (req, args) => {
+    addAuthor: async (parent, args, context) => {
+      const authenticated = context.req.headers.authorization;
+
+      if (!authenticated) {
+        return TE("There is no valid token!");
+      }
+
       const author = new Author({
         first_name: faker.name.firstName(),
         last_name: faker.name.lastName(),
@@ -126,7 +144,13 @@ const resolvers = {
 
       return await author.save();
     },
-    addBook: async (req, args) => {
+    addBook: async (parent, args, context) => {
+      const authenticated = context.req.headers.authorization;
+
+      if (!authenticated) {
+        return TE("There is no valid token!");
+      }
+
       const book = new Book({
         title: faker.random.word(),
         isbn: faker.random.alphaNumeric(),
@@ -139,7 +163,13 @@ const resolvers = {
 
       return await book.save();
     },
-    addPublisher: async (req, args) => {
+    addPublisher: async (parent, args, context) => {
+      const authenticated = context.req.headers.authorization;
+
+      if (!authenticated) {
+        return TE("There is no valid token!");
+      }
+
       const publisher = new Publisher({
         name: faker.name.title(),
         foundation_year: faker.date.recent()
@@ -147,7 +177,13 @@ const resolvers = {
 
       return await publisher.save();
     },
-    updateAuthor: async (req, args) => {
+    updateAuthor: async (parent, args, context) => {
+      const authenticated = context.req.headers.authorization;
+
+      if (!authenticated) {
+        return TE("There is no valid token!");
+      }
+
       const author = await Author.findOne({ _id: args._id });
 
       if (!author) return TE("The author does not exist!");
@@ -159,7 +195,13 @@ const resolvers = {
 
       return await author.save();
     },
-    updateBook: async (req, args) => {
+    updateBook: async (parent, args, context) => {
+      const authenticated = context.req.headers.authorization;
+
+      if (!authenticated) {
+        return TE("There is no valid token!");
+      }
+
       const book = await Book.findOne({ _id: args._id });
 
       if (!book) return TE("The book does not exist!");
@@ -171,7 +213,13 @@ const resolvers = {
 
       return await book.save();
     },
-    updatePublisher: async (req, args) => {
+    updatePublisher: async (parent, args, context) => {
+      const authenticated = context.req.headers.authorization;
+
+      if (!authenticated) {
+        return TE("There is no valid token!");
+      }
+
       const publisher = await Publisher.findOne({ _id: args._id });
 
       if (!publisher) return TE("The publisher does not exist!");

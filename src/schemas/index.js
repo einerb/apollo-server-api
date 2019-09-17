@@ -73,7 +73,7 @@ const typeDefs = gql`
 
   "Mutations"
   type Mutation {
-    login(username: String!, password: String!): Auth!
+    generateToken(username: String!, password: String!): Auth!
 
     addAuthor(authorInput: AuthorInput): Author
     updateAuthor(_id: ID!, authorInput: AuthorInput): Author
