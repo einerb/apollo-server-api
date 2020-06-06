@@ -9,7 +9,7 @@
   "author": "Einer Bravo",
   "license": "ISC",
   "dependencies": {
-    "apollo-server-express": "^2.9.3",
+    "apollo-server-express": "^2.14.2",
     "await-to-js": "^2.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
